@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:book_reading/category_page.dart';
 import 'package:book_reading/library_page.dart';
-import 'package:book_reading/settings_page.dart';
+import 'package:book_reading/settings/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
