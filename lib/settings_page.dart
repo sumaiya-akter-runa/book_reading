@@ -16,9 +16,9 @@ class SettingsPage extends StatelessWidget {
             if (!isLoggedIn) ...[
               const Text(
                 "You're browsing as a guest.",
-                style: TextStyle(color: Color(0xFF6E6E6E)),
+                style: TextStyle(color: Color(0xFF6E6E6E), fontSize: 16), // Increased font size
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8), // Reduced spacing
               ElevatedButton.icon(
                 onPressed: () {
                   // Navigate to sign in / sign up page
@@ -30,7 +30,7 @@ class SettingsPage extends StatelessWidget {
                   foregroundColor: Colors.white,
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16), // Reduced spacing
             ],
 
             if (isLoggedIn) ...[
@@ -83,7 +83,7 @@ class SettingsPage extends StatelessWidget {
       child: Text(
         title,
         style: const TextStyle(
-            fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF2E2E2E)),
+            fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF2E2E2E)),
       ),
     );
   }
@@ -91,7 +91,10 @@ class SettingsPage extends StatelessWidget {
   Widget _tile(IconData icon, String title) {
     return ListTile(
       leading: Icon(icon, color: const Color(0xFF5D5FEF)),
-      title: Text(title, style: const TextStyle(color: Color(0xFF2E2E2E))),
+      title: Text(
+        title,
+        style: const TextStyle(color: Color(0xFF2E2E2E), fontSize: 16), // Increased font size
+      ),
       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
     );
   }

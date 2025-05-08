@@ -20,17 +20,29 @@ class CategoryPage extends StatelessWidget {
                   prefixIcon: const Icon(Icons.search),
                   filled: true,
                   fillColor: Colors.white,
-                  border: OutlineInputBorder(
+                  enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+                    borderSide: const BorderSide(color: Color(0xFFDADADA)), // border color
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF5D5FEF)), // active border color
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
 
               // Category Chips
+              const Text('Browse by Category',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2E2E2E))),
+              const SizedBox(height: 12),
+
               Wrap(
                 spacing: 8,
+                runSpacing: 8,
                 children: [
                   _buildChip('Fiction'),
                   _buildChip('Mystery'),
@@ -38,9 +50,16 @@ class CategoryPage extends StatelessWidget {
                   _buildChip('Romance'),
                   _buildChip('Science'),
                   _buildChip('Biography'),
+                  _buildChip('Fantasy'),
+                  _buildChip('Thriller'),
+                  _buildChip('Children'),
+                  _buildChip('History'),
+                  _buildChip('Comics'),
+                  _buildChip('Adventure'),
                 ],
               ),
-              const SizedBox(height: 20),
+
+              const SizedBox(height: 30),
 
               // Popular Categories
               const Text('Popular Categories',

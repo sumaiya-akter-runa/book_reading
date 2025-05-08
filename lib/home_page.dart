@@ -1,7 +1,8 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:book_reading/category_page.dart';
 import 'package:book_reading/library_page.dart';
 import 'package:book_reading/settings_page.dart';
-import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -50,8 +51,45 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class HomeContent extends StatelessWidget {
+class HomeContent extends StatefulWidget {
   const HomeContent({super.key});
+
+  @override
+  State<HomeContent> createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<HomeContent> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startAutoSlide();
+  }
+
+  void _startAutoSlide() {
+    _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
+      if (_currentPage < 4) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+      _pageController.animateToPage(
+        _currentPage,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +99,76 @@ class HomeContent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Auto Slider
+            SizedBox(
+              height: 160,
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: 5,
+                itemBuilder: (context, index) => Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    gradient: LinearGradient(
+                      colors: [Color(0xFF5D5FEF), Color(0xFFB1B2FF)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Sliders ${index + 1}",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+
+            // Categories
+            const Text(
+              'Categories',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF2E2E2E)),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 100,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: List.generate(
+                  6,
+                      (index) => GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CategoryPage()),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 16),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Color(0xFFE3F6FF),
+                            child: const Icon(Icons.category, color: Color(0xFF5D5FEF), size: 30),
+                          ),
+                          const SizedBox(height: 6),
+                          const Text("Genre", style: TextStyle(color: Color(0xFF6E6E6E)))
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+
             const Text(
               'Latest Books',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF2E2E2E)),
@@ -95,46 +203,10 @@ class HomeContent extends StatelessWidget {
                 ),
               ),
             ),
+
             const SizedBox(height: 30),
-            const Text(
-              'Categories',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF2E2E2E)),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              height: 100,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: List.generate(
-                  6,
-                      (index) => GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const CategoryPage(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 16),
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            radius: 30,
-                            backgroundColor: Color(0xFFE3F6FF),
-                            child: const Icon(Icons.category, color: Color(0xFF5D5FEF), size: 30),
-                          ),
-                          const SizedBox(height: 6),
-                          const Text("Genre", style: TextStyle(color: Color(0xFF6E6E6E)))
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
+
+            // Top Rated
             const Text(
               'Top Rated',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF2E2E2E)),
@@ -154,7 +226,7 @@ class HomeContent extends StatelessWidget {
                   trailing: Icon(Icons.arrow_forward_ios, size: 16, color: Color(0xFF6E6E6E)),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

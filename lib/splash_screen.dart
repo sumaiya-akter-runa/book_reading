@@ -30,29 +30,31 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0, -0.2), // Centered near the "Readora" text
+            radius: 1.0,
             colors: [
-              Color(0xFFFBC2EB), // light pink
-              Color(0xFFA18CD1), // soft purple
+              Color(0xFFB3B5FF), // Light indigo-blue (center)
+              Color(0xFF9A76D2), // Deeper lavender
+              Color(0xFF5A4FCF), // Deep indigo
             ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            stops: [0.0, 0.4, 1.0], // ✅ Proper increasing order
           ),
         ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Image.asset("assets/images/logo.png", width: 200, height: 200),
-              // const SizedBox(height: 10),
+              // "Readora" Text with Border and Fill Layers
               Stack(
+                alignment: Alignment.center, // Centers text and progress indicator
                 children: [
-                  // Border layer
+                  // Border layer for "Readora"
                   Text(
                     "Readora",
                     style: GoogleFonts.acme(
-                      fontSize: 30,
+                      fontSize: 40,
                       fontWeight: FontWeight.bold,
                       foreground: Paint()
                         ..style = PaintingStyle.stroke
@@ -60,21 +62,21 @@ class _SplashScreenState extends State<SplashScreen> {
                         ..color = Color(0xFF800080), // Purple border
                     ),
                   ),
-                  // Fill layer
+                  // Fill layer for "Readora"
                   Text(
                     "Readora",
                     style: GoogleFonts.acme(
-                      fontSize: 30,
+                      fontSize: 40,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white, // Fill color
+                      color: Color(0xFF3C3DB3), // Fill color
                     ),
                   ),
                 ],
               ),
-
-              const SizedBox(height: 10),
-              const CircularProgressIndicator(color: Color(0xFF800080)),
-
+              const SizedBox(height: 10), // Space between text and the progress indicator
+              const CircularProgressIndicator(
+                color: Color(0xFF800080), // Purple color for the loader
+              ),
             ],
           ),
         ),
